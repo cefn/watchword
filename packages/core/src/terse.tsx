@@ -13,15 +13,17 @@ export type TerseSequence<Choice = unknown, Ending = void> = PageMakerSequence<
   : never;
 
 /**
- * This sequence decorator normalises a terser sequence by mapping a yielded
- * JSX.Element to some TellComponent.
+ * Normalises a TerseSequence back to a PageMakerSequence by mapping any raw
+ * yielded JSX.Element to a TellComponent.
  *
- * Core story sequences yield PageMaker factory functions. However a terse
- * sequence can directly yield JSX elements, simplifying authoring. Yielding JSX
- * directly is syntactic sugar for yielding a factory for a TellComponent (a
- * simple passage with a 'Next' control). In this terse syntax, delegating
- * yields are reserved for sequences having some kind of choice or other
- * specialised, branching interaction.
+ * A PageMakerSequence normally delegates to functions yielding PageMakers
+ * (factory functions for JSX elements with embedded eventing and branching).
+ * However, a terse sequence can directly yield JSX elements, a 'syntactic
+ * sugar' that simplifies authoring.
+ *
+ * Yielding JSX is equivalent to delegating to a sequence yielding a
+ * TellComponent (a simple passage with a 'Next' control and no options or
+ * branching).
  */
 export function decorateTerseSequence<Choice = unknown, Ending = void>(
   terseSequence: TerseSequence<Choice, Ending>,
@@ -32,7 +34,7 @@ export function decorateTerseSequence<Choice = unknown, Ending = void>(
       // passthrough PageMaker values
       return value;
     }
-    // simple JSX.Element values are transformed to a PageMaker for a TellComponent
+    // wrap a raw JSX.Element in a TellComponent factory
     return (choose) => (
       <Component passage={value} nextPage={() => choose(null)} />
     );

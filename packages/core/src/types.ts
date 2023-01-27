@@ -26,13 +26,13 @@ export type PageSequenceMoment<Ending> = PageMoment | EndingMoment<Ending>;
 
 /** Delegating generator. Yields a single PageMaker that renders a passage with
  * a 'next' interaction. */
-export type TellAction = (
+export type TellSequenceFunction = (
   passage: JSX.Element
 ) => PageMakerSequence<null, void>;
 
 /** Delegating generator. Yields a single PageMaker that renders a passage with
  * a 'choice' interaction. */
-export type PromptAction = <Choice extends string>(
+export type PromptSequenceFunction = <Choice extends string>(
   passage: JSX.Element,
   choices: {
     [k in Choice]: JSX.Element;

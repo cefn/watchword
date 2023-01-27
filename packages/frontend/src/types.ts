@@ -1,5 +1,5 @@
 import { TerseSequence } from "@watchword/core";
-import { prompt, tell } from "./action";
+import { prompt, tell } from "./sequence";
 
 /** Infers the yielded value from a generator type */
 export type GYielded<G extends Generator> = G extends Generator<infer yielded>
