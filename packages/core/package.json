@@ -1,0 +1,15 @@
+{
+  "name": "@watchword/core",
+  "version": "0.1.0",
+  "description": "Interactive fiction through JSX Generators",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cefn Hoile",
+  "license": "MIT",
+  "peerDependencies": {
+    "@types/react-dom": "^18.0.10",
+    "react": "^18.2.0"
+  }
+}

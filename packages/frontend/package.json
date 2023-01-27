@@ -1,0 +1,29 @@
+{
+  "name": "@watchword/frontend",
+  "version": "0.1.0",
+  "description": "Wrapper for core generators, making syntax more terse",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/react": "*",
+    "autoprefixer": "^10.4.13",
+    "daisyui": "^2.49.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cefn Hoile",
+  "license": "MIT",
+  "peerDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@watchword/core": "^0.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "react-daisyui": "^3.0.2"
+  }
+}

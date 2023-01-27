@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "dist",
+    "jsx": "preserve"
+  },
+  "references": [{ "path": "../../packages/core/tsconfig.json" }]
+}
