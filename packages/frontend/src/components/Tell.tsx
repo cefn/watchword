@@ -1,8 +1,8 @@
 import { Button } from "react-daisyui";
 import { PassagePane } from "./PassagePane";
 
-export function Tell(props: { page: JSX.Element; nextPage: () => void }) {
-  const { page, nextPage } = props;
+export function Tell(props: { passage: JSX.Element; nextPage: () => void }) {
+  const { passage, nextPage } = props;
 
   const controls = (
     <div className="flex flex-col">
@@ -12,5 +12,5 @@ export function Tell(props: { page: JSX.Element; nextPage: () => void }) {
     </div>
   );
 
-  return <PassagePane passage={page} controls={controls}></PassagePane>;
+  return <PassagePane passage={passage} controls={controls}></PassagePane>;
 }

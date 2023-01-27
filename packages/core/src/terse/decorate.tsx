@@ -1,5 +1,9 @@
-import { PageMakerSequence, decorateSequence } from "@watchword/core";
-import { PassageComponent, TerseSequence } from "./types";
+import {
+  PageMakerSequence,
+  decorateSequence,
+  TellComponent,
+} from "@watchword/core";
+import { TerseSequence } from "./types";
 
 /** Core story sequences yield PageMaker factory functions. However a terse
  * sequence directly yields JSX elements. This is syntactic sugar for yielding a
@@ -14,7 +18,7 @@ import { PassageComponent, TerseSequence } from "./types";
  */
 export function decorateTerseSequence<Choice = unknown, Ending = void>(
   terseSequence: TerseSequence<Choice, Ending>,
-  Component: PassageComponent
+  Component: TellComponent
 ): PageMakerSequence<Choice | null, Ending> {
   return decorateSequence(terseSequence, (value) => {
     if (typeof value === "function") {
@@ -24,6 +28,8 @@ export function decorateTerseSequence<Choice = unknown, Ending = void>(
     // simple JSX.Element values need embedded choice eventing
     // to be added. Here we transform them to a PageMaker - a
     // factory for a UI that interactively triggers a choose callback
-    return (choose) => <Component page={value} nextPage={() => choose(null)} />;
+    return (choose) => (
+      <Component passage={value} nextPage={() => choose(null)} />
+    );
   });
 }

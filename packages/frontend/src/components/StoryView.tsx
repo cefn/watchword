@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   PageMakerSequence,
   PageSequenceMoment,
-  completeAllMoments,
+  executeMomentLoop,
 } from "@watchword/core";
 
 export function StoryView<Choice, Ending>(props: {
@@ -15,7 +15,7 @@ export function StoryView<Choice, Ending>(props: {
   useEffect(() => {
     // in strict mode, this will be run twice, and will recreate a second story
     const sequence = story();
-    void completeAllMoments(sequence, setMoment);
+    void executeMomentLoop(sequence, setMoment);
   }, []);
 
   if (moment === null) {

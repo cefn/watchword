@@ -23,3 +23,35 @@ export interface EndingMoment<Ending> {
 
 /** A PageSequence may have either rendered a page or reached an ending */
 export type PageSequenceMoment<Ending> = PageMoment | EndingMoment<Ending>;
+
+/** Delegating generator. Yields a single PageMaker that renders a passage with
+ * a 'next' interaction. */
+export type TellAction = (
+  passage: JSX.Element
+) => PageMakerSequence<null, void>;
+
+/** Delegating generator. Yields a single PageMaker that renders a passage with
+ * a 'choice' interaction. */
+export type PromptAction = <Choice extends string>(
+  passage: JSX.Element,
+  choices: {
+    [k in Choice]: JSX.Element;
+  }
+) => PageMakerSequence<Choice, Choice>;
+
+/** Component interface suitable for rendering a passage with a 'next'
+ * interaction. */
+export type TellComponent = (props: {
+  passage: JSX.Element;
+  nextPage: () => void;
+}) => JSX.Element;
+
+/** Component interface suitable for rendering a passage with a 'choice'
+ * interaction. */
+export type PromptComponent = <Choice extends string>(props: {
+  passage: JSX.Element;
+  choices: {
+    [k in Choice]: JSX.Element;
+  };
+  nextChoice: (choice: Choice) => void;
+}) => JSX.Element;

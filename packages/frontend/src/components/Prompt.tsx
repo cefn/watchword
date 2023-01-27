@@ -7,9 +7,9 @@ export function Prompt<Choice extends string>(props: {
   choices: {
     [k in Choice]: JSX.Element;
   };
-  choose: (choice: Choice) => void;
+  nextChoice: (choice: Choice) => void;
 }) {
-  const { passage, choices, choose } = props;
+  const { passage, choices, nextChoice } = props;
 
   const controls = (
     <div className="flex flex-col">
@@ -19,7 +19,7 @@ export function Prompt<Choice extends string>(props: {
           <Button
             color="primary"
             className="w-fit m-1"
-            onClick={() => choose(choiceId)}
+            onClick={() => nextChoice(choiceId)}
           >
             {choicePassage}
           </Button>
