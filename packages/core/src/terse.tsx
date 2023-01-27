@@ -2,7 +2,7 @@ import {
   PageMakerSequence,
   decorateSequence,
   TellComponent,
-  ActionSequence,
+  TerseSequence,
 } from "@watchword/core";
 
 /**
@@ -18,8 +18,8 @@ import {
  * TellComponent (a simple passage with a 'Next' control and no options or
  * branching).
  */
-export function decorateActionSequence<Ending = void>(
-  terseSequence: ActionSequence<Ending>,
+export function decorateTerseSequence<Ending = void>(
+  terseSequence: TerseSequence<Ending>,
   Component: TellComponent
 ): PageMakerSequence<unknown, Ending> {
   return decorateSequence(terseSequence, (value) => {

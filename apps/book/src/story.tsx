@@ -1,6 +1,6 @@
-import { ActionSequence } from "@watchword/core";
+import { TerseSequence } from "@watchword/core";
 
-export function* story(): ActionSequence {
+export function* story(): TerseSequence {
   yield <>This is text 1</>;
   yield <>This is text 2</>;
 }

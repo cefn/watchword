@@ -64,7 +64,7 @@ export type GYielded<G extends Generator> = G extends Generator<
   ? Yielded
   : never;
 
-export type ActionSequence<Ending = void> = Generator<
+export type TerseSequence<Ending = void> = Generator<
   | JSX.Element
   | GYielded<
       ReturnType<TellSequenceFunction> | ReturnType<PromptSequenceFunction>
