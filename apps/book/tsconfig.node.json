@@ -6,6 +6,9 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
-  "references": [{ "path": "../../packages/core/tsconfig.json" }],
+  "references": [
+    { "path": "../../packages/core/tsconfig.json" },
+    { "path": "../../packages/frontend/tsconfig.json" }
+  ],
   "include": ["vite.config.ts"]
 }
