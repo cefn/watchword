@@ -1,7 +1,7 @@
-import { TerseSequence } from "@watchword/core";
+import { ActionSequence } from "@watchword/core";
 import { prompt } from "@watchword/frontend";
 
-export function* story(): TerseSequence {
+export function* createActionSequence(): ActionSequence {
   yield (
     <>
       <h1>Goodbye World</h1>

@@ -18,6 +18,14 @@ export function StoryView<Choice, Ending>(props: {
     void executeMomentLoop(sequence, setMoment);
   }, []);
 
+  return (
+    <div className="flex flex-col min-w-full h-screen">
+      {renderMoment(moment)}
+    </div>
+  );
+}
+
+function renderMoment<Ending>(moment: PageSequenceMoment<Ending> | null) {
   if (moment === null) {
     return <p>Story Loading</p>;
   }

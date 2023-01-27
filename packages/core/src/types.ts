@@ -1,10 +1,3 @@
-/** Generator of a rendered Story. */
-export type PageMakerSequence<Choice = unknown, Ending = void> = Generator<
-  PageMaker<Choice>,
-  Ending,
-  Choice
->;
-
 /** A chooser callback to be triggered by a JSX.Element UI */
 export type Chooser<Choice> = (choice: Choice) => void;
 
@@ -64,7 +57,13 @@ export type GYielded<G extends Generator> = G extends Generator<
   ? Yielded
   : never;
 
-export type TerseSequence<Ending = void> = Generator<
+export type PageMakerSequence<Choice, Ending = void> = Generator<
+  PageMaker<Choice>,
+  Ending,
+  any
+>;
+
+export type ActionSequence<Ending = void> = Generator<
   | JSX.Element
   | GYielded<
       ReturnType<TellSequenceFunction> | ReturnType<PromptSequenceFunction>
