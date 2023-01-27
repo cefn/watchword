@@ -1,4 +1,5 @@
-import { ActionSequence, prompt } from "@watchword/frontend";
+import { ActionSequence } from "@watchword/core";
+import { prompt } from "@watchword/frontend";
 
 export function* story(): ActionSequence {
   yield (

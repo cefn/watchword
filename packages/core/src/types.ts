@@ -55,3 +55,20 @@ export type PromptComponent = <Choice extends string>(props: {
   };
   nextChoice: (choice: Choice) => void;
 }) => JSX.Element;
+
+export type GYielded<G extends Generator> = G extends Generator<
+  infer Yielded,
+  any,
+  any
+>
+  ? Yielded
+  : never;
+
+export type ActionSequence<Ending = void> = Generator<
+  | JSX.Element
+  | GYielded<
+      ReturnType<TellSequenceFunction> | ReturnType<PromptSequenceFunction>
+    >,
+  Ending,
+  any
+>;

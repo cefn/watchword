@@ -2,15 +2,8 @@ import {
   PageMakerSequence,
   decorateSequence,
   TellComponent,
+  ActionSequence,
 } from "@watchword/core";
-
-/** Specialises PageMakerSequence to allow direct yielding of JSX elements */
-export type TerseSequence<Choice = unknown, Ending = void> = PageMakerSequence<
-  Choice,
-  Ending
-> extends Generator<infer Yielded, infer Returned, infer Nexted>
-  ? Generator<Yielded | JSX.Element, Returned, Nexted>
-  : never;
 
 /**
  * Normalises a TerseSequence back to a PageMakerSequence by mapping any raw
@@ -25,10 +18,10 @@ export type TerseSequence<Choice = unknown, Ending = void> = PageMakerSequence<
  * TellComponent (a simple passage with a 'Next' control and no options or
  * branching).
  */
-export function decorateTerseSequence<Choice = unknown, Ending = void>(
-  terseSequence: TerseSequence<Choice, Ending>,
+export function decorateActionSequence<Ending = void>(
+  terseSequence: ActionSequence<Ending>,
   Component: TellComponent
-): PageMakerSequence<Choice | null, Ending> {
+): PageMakerSequence<unknown, Ending> {
   return decorateSequence(terseSequence, (value) => {
     if (typeof value === "function") {
       // passthrough PageMaker values
