@@ -28,7 +28,3 @@ export function decorateSequence<Yielded, Returned, Nexted, Decorated>(
     },
   };
 }
-
-export type InferEntry<Lookup> = keyof Lookup extends keyof Lookup
-  ? [keyof Lookup, Lookup[keyof Lookup]]
-  : never;

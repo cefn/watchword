@@ -1,7 +1,6 @@
-import { ActionSequence } from "@watchword/core";
-import { prompt } from "@watchword/frontend";
+import { prompt, PageSequence } from "@watchword/ui-fiction";
 
-export function* createActionSequence(): ActionSequence {
+export function* createPageSequence(): PageSequence {
   yield (
     <>
       <h1>Goodbye World</h1>
@@ -24,6 +23,7 @@ export function* createActionSequence(): ActionSequence {
       sleep: <>Go back to sleep</>,
     }
   );
+
   if (choice === "sleep") {
     yield (
       <>
@@ -35,10 +35,7 @@ export function* createActionSequence(): ActionSequence {
         </>
       </>
     );
-    return;
-  }
-
-  if (choice === "run") {
+  } else if (choice === "run") {
     yield (
       <>
         <h1>You lose!</h1>
@@ -48,9 +45,10 @@ export function* createActionSequence(): ActionSequence {
         </>
       </>
     );
-    return;
+  } else {
+    // should never be reached
+    choice satisfies never;
   }
 
-  // should never be reached
-  choice satisfies never;
+  return <>The End</>;
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@watchword/frontend",
+  "name": "@watchword/ui-fiction",
   "version": "0.1.0",
   "description": "Wrapper for core generators, making syntax more terse",
   "main": "src/index.ts",
