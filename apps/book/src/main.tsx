@@ -1,17 +1,23 @@
+import { toElementSequence } from "@watchword/ui-fiction";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Tell } from "@watchword/frontend";
-import { decorateRawJsx } from "@watchword/core";
-import { createActionSequence } from "./stories/goodbye-world";
-import { StyledStoryView } from "./StyledStoryView";
+import { createPageSequence } from "./stories/goodbye-world";
+import { StyledSequenceView } from "./StyledSequenceView";
 
 export const story = () => {
-  const actionSequence = createActionSequence();
-  return decorateRawJsx(actionSequence, Tell);
+  const pageSequence = createPageSequence();
+  const elementSequence = toElementSequence(pageSequence);
+  return elementSequence;
 };
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+const rootElement = document.getElementById("root");
+
+if (rootElement === null) {
+  throw new Error(`Root element not found`);
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <StyledStoryView story={story} />
+    <StyledSequenceView story={story} />
   </React.StrictMode>
 );

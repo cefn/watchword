@@ -1,0 +1,27 @@
+{
+  "name": "@watchword/core-react",
+  "version": "0.1.0",
+  "description": "React rendering of JSX Moments served by core engine.",
+  "main": "src/index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cefn/watchword.git"
+  },
+  "author": "Cefn Hoile",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cefn/watchword/issues"
+  },
+  "homepage": "https://github.com/cefn/watchword#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10"
+  }
+}

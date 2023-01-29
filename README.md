@@ -1,23 +1,27 @@
 # Watchword - Interactive fiction from JSX generators
 
-Watchword explores Interactive Fiction authoring using Typescript generators to yield JSX text passages and controls.
+The branching logic of generators/coroutines are a natural formalism for defining interactive fiction stories. This project explores Interactive Fiction authoring using Typescript generators to yield JSX text passages and controls.
 
-The branching logic of generators/coroutines are a natural formalism for defining interactive fiction stories. Watchword introduces two innovations to prove the approach...
+## Features
 
-- An engine that reconciles `yield`-based branching with JSX rendering, eventing
+Watchword prototypes two innovations to prove the approach...
 
-  - generators yield PageMaker UI component factories, and halt waiting for a UI callback
-  - the engine is grammar- and ui- agnostic, allowing any branching story or game to be presented
+- An engine that reconciles `yield`-based branching with JSX rendering and eventing
 
-- An example terse grammar for authoring choice-based stories
+  - generators yield UI component factories
+  - generators proceed to create and render the next component once the last component triggers a UI callback
+  - The approach is grammar- and ui- agnostic, suitable for any branching story or game
 
-  - `tell` passages with no choice (just a 'Next' control)
-  - `prompt` passages with Choice-based controls
+- An example grammar and ui for authoring choice-based stories
 
-## Commentary on Implementation
+  - generates a declarative grammar in turn decorated to generate component factories
+  - `tell` passages offer no branches. They map to a simple 'Next' control
+  - `prompt` passages offer alternate branches. They map to Choice-based controls
 
-A pattern emerging in the codebase is to use generators of structures which serve e.g. authoring, testing, but which are decorated to make them compatible with the core execution model - in which complex UI elements can be yielded.
+## Mapped Generators
 
-For example, at a logical level, a generator may yield raw strings, JSX fragments, or tell and prompt data structures so that authors can easily compose the stories, and so that tests can be authored simply (without interacting with a headless browser).
+A pattern emerging in the codebase is to have generators yielding story logic for e.g. authoring, testing, then map this generator to comply with the core execution model - yielding factories for complex UI elements.
+
+A story logic grammar yields raw strings, JSX fragments, or tell and prompt data structures. This means authors can easily compose the stories without seeing the cruft of arrow functions, and facilitates testing against these declarative structures (without needing to interact with a headless browser).
 
 However, this generator is then 'decorated' to yield JSX factories, which can be used directly with the execution engine.
