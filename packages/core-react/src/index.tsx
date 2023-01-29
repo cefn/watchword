@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ElementSequence, executeUiLoop } from "@watchword/core";
 
 export function ElementSequenceView<Event>(props: {
-  story: () => ElementSequence<Event>;
+  story: () => ElementSequence;
 }) {
   const { story } = props;
 

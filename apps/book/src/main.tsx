@@ -1,12 +1,15 @@
-import { toElementSequence } from "@watchword/ui-fiction";
+import { toElementSequence } from "@watchword/fiction-grammar";
+import { pageElementDefs } from "@watchword/fiction-ui-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createPageSequence } from "./stories/goodbye-world";
+import { createPageSequence } from "./stories/fiction/goodbye-world";
 import { StyledSequenceView } from "./StyledSequenceView";
+
+// import { story } from "./stories/raw/hello-world";
 
 export const story = () => {
   const pageSequence = createPageSequence();
-  const elementSequence = toElementSequence(pageSequence);
+  const elementSequence = toElementSequence(pageSequence, pageElementDefs);
   return elementSequence;
 };
 

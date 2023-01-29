@@ -4,7 +4,7 @@ import { ElementSequenceView } from "@watchword/core-react";
 type StoryViewProps = Parameters<typeof ElementSequenceView>[0];
 
 /** Adds the tailwind CSS to the page payload. */
-import "@watchword/ui-fiction/css";
+import "@watchword/fiction-ui-react/css";
 
 /** Component just passes through to StoryView, but the import above ensures
  * styles are bundled. */

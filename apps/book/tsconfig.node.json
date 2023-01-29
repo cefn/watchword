@@ -9,7 +9,7 @@
   "references": [
     { "path": "../../packages/core/tsconfig.json" },
     { "path": "../../packages/core-react/tsconfig.json" },
-    { "path": "../../packages/ui-fiction/tsconfig.json" }
+    { "path": "../../packages/fiction-ui-react/tsconfig.json" }
   ],
   "include": ["vite.config.ts"]
 }

@@ -1,13 +1,13 @@
-export function decorateSequence<Yielded, Returned, Nexted, Decorated>(
+export function createMappedGenerator<Yielded, Returned, Nexted, MappedYielded>(
   generator: Generator<Yielded, Returned, Nexted>,
-  decorate: (yielded: Yielded) => Decorated
-): Generator<Decorated, Returned, Nexted> {
+  mapYielded: (yielded: Yielded) => MappedYielded
+): Generator<MappedYielded, Returned, Nexted> {
   function mapResult(result: IteratorResult<Yielded, Returned>) {
     const { value, done } = result;
     if (!done) {
       return {
         done,
-        value: decorate(value),
+        value: mapYielded(value),
       };
     }
     return result;
