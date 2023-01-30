@@ -12,7 +12,7 @@ export function* tell(passage: JSX.Element): Generator<TellAction, void, void> {
 export function* prompt<Choice extends string>(
   passage: JSX.Element,
   choices: Readonly<{
-    [k in Choice]: JSX.Element;
+    [k in Choice]?: JSX.Element;
   }>
 ): Generator<PromptAction<Choice>, Choice, Choice> {
   const choice: Choice = yield {

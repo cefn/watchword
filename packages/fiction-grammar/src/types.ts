@@ -7,7 +7,7 @@ export interface TellAction {
 export interface PromptAction<Choice extends string> {
   passage: JSX.Element;
   choices: {
-    [k in Choice]: JSX.Element;
+    [k in Choice]?: JSX.Element;
   };
 }
 
@@ -27,7 +27,7 @@ export interface TellProps {
 export interface PromptProps<Choice extends string> {
   passage: JSX.Element;
   choices: {
-    [k in Choice]: JSX.Element;
+    [k in Choice]?: JSX.Element;
   };
   handleChoice: (choice: Choice) => void;
 }

@@ -1,4 +1,4 @@
-import { ActionSequence, Passage } from "../../types";
+import { PageSequence } from "../../types";
 import { END } from "./roomStory";
 
 /** An options object to combine WorldState definition and RoomId lookup - enough
@@ -15,7 +15,7 @@ export type RoomStoryOptions<
  * based stories should extend this */
 export type RoomWorldState<RoomId extends string> = {
   currentRoomId: RoomId;
-  roomTitles: { [id in RoomId]: Passage };
+  roomTitles: { [id in RoomId]: JSX.Element };
 };
 
 /** A lookup for rooms -  ActionSequences named by ids, whose sequences result
@@ -24,5 +24,5 @@ export type RoomLookup<
   RoomId extends string,
   WorldState extends RoomWorldState<RoomId>
 > = {
-  [id in RoomId]: (state: WorldState) => ActionSequence<RoomId | typeof END>;
+  [id in RoomId]: (state: WorldState) => PageSequence<RoomId | typeof END>;
 };

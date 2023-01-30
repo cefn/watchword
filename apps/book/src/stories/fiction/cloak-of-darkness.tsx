@@ -1,5 +1,11 @@
-import type { RoomWorldState } from "../lib/engine/extensions/room/roomTypes";
-import { roomStory, END } from "../lib/engine/extensions/room/roomStory";
+import {
+  RoomWorldState,
+  PageSequence,
+  roomStory,
+  tell,
+  prompt,
+  END,
+} from "@watchword/fiction-grammar";
 
 /** Locations in the story. */
 type RoomId = "outside" | "lobby" | "cloakroom" | "bar";
@@ -11,7 +17,7 @@ interface WorldState extends RoomWorldState<RoomId> {
 }
 
 /** An ActionSequence yields tell and prompt pages, returns a destination RoomId (or END)*/
-type Room = (state: WorldState) => ActionSequence<RoomId | typeof END>;
+type Room = (state: WorldState) => PageSequence<RoomId | typeof END>;
 
 export const outside: Room = function* (state) {
   yield* tell(
@@ -212,7 +218,7 @@ export const lightBar: Room = function* (state) {
 
 /** Delegates to a room based sequence to yield title/tell/prompt actions. These
  * combine the rooms into a navigable world having shared global state. */
-export const story: Story = function* () {
+export const createPageSequence = function* (): PageSequence<JSX.Element> {
   // populate the rooms (a lookup used for navigation)
   const rooms = {
     outside,
@@ -241,4 +247,6 @@ export const story: Story = function* () {
   });
 
   yield* sequence;
+
+  return <>The End</>;
 };

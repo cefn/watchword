@@ -5,7 +5,7 @@ import { Button } from "react-daisyui";
 export function Prompt<Choice extends string>(props: {
   passage: JSX.Element;
   choices: {
-    [k in Choice]: JSX.Element;
+    [k in Choice]?: JSX.Element;
   };
   handleChoice: (choice: Choice) => void;
 }) {

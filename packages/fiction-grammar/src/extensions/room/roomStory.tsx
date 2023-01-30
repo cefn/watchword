@@ -1,4 +1,4 @@
-import type { ActionSequence, Id } from "../../types";
+import { PageSequence } from "../../types";
 import { prefixPassages } from "../splice";
 import { RoomStoryOptions, RoomWorldState } from "./roomTypes";
 
@@ -11,9 +11,9 @@ export const END = Symbol();
 
 /** ActionSequence delegating story sequences to rooms */
 export function* roomStory<
-  RoomId extends Id,
+  RoomId extends string,
   WorldState extends RoomWorldState<RoomId>
->(options: RoomStoryOptions<RoomId, WorldState>): ActionSequence<void> {
+>(options: RoomStoryOptions<RoomId, WorldState>): PageSequence<void> {
   const { rooms, worldState } = options;
 
   let room = rooms[worldState.currentRoomId];
