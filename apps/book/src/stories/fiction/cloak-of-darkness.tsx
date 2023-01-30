@@ -2,7 +2,6 @@ import {
   RoomWorldState,
   PageSequence,
   roomStory,
-  tell,
   prompt,
   END,
 } from "@watchword/fiction-grammar";
@@ -16,20 +15,18 @@ interface WorldState extends RoomWorldState<RoomId> {
   hasCloak: boolean;
 }
 
-/** An ActionSequence yields tell and prompt pages, returns a destination RoomId (or END)*/
+/** Function for generator yielding tell and prompt pages, returning a destination RoomId (or END)*/
 type Room = (state: WorldState) => PageSequence<RoomId | typeof END>;
 
 export const outside: Room = function* (state) {
-  yield* tell(
+  yield (
     <>
       Hurrying through the rainswept November night, you're glad to see the
       bright lights of the Foyer. It's surprising that there aren't more people
       about but, hey, what do you expect in a cheap demo game...?
     </>
   );
-  yield* tell(
-    <>Shaking the rain from your Cloak, you step gratefully inside.</>
-  );
+  yield <>Shaking the rain from your Cloak, you step gratefully inside.</>;
   return "lobby";
 };
 
@@ -49,7 +46,7 @@ export const lobby: Room = function* (state) {
   );
 
   if (choice === "inspectCloak") {
-    yield* tell(
+    yield (
       <>
         A handsome cloak, of velvet trimmed with satin, and slightly spattered
         with raindrops. Its blackness is so deep that it almost seems to suck
@@ -59,7 +56,7 @@ export const lobby: Room = function* (state) {
     return "lobby";
   }
   if (choice === "preventedNorth") {
-    yield* tell(
+    yield (
       <>
         You've only just arrived, and besides, the weather outside seems to be
         getting worse.
@@ -95,15 +92,15 @@ export const cloakroom: Room = function* (state) {
   }
 
   if (choice === "hangCloak") {
-    yield* tell(<>You hang up your cloak.</>);
+    yield <>You hang up your cloak.</>;
     state.hasCloak = false;
   }
   if (choice === "wearCloak") {
-    yield* tell(<>You put on your cloak</>);
+    yield <>You put on your cloak</>;
     state.hasCloak = true;
   }
   if (choice === "lookAtHook") {
-    yield* tell(
+    yield (
       <>
         It's just a small brass hook, screwed to the wall.
         {!state.hasCloak && <> Your coat is hanging there.</>}
@@ -178,14 +175,15 @@ export const darkBar: Room = function* (state) {
 
   state.turnsInBar += 1;
 
-  yield* tell(
+  yield (
     <>Oops, this is just a blank wall! But perhaps if you follow it around...</>
   );
+
   return "lobby";
 };
 
 export const lightBar: Room = function* (state) {
-  yield* tell(
+  yield (
     <>
       The bar, much rougher than you'd have guessed after the opulence of the
       foyer to the north, is completely empty. You're glad you hung up your
@@ -195,14 +193,14 @@ export const lightBar: Room = function* (state) {
     </>
   );
   if (state.turnsInBar <= 3) {
-    yield* tell(
+    yield (
       <>
         The message, neatly marked in the sawdust, reads...
         <h1>You have won!</h1>
       </>
     );
   } else {
-    yield* tell(
+    yield (
       <>
         On the floor is a pile of sawdust scuffed by many footprints. You can
         make out a few letters...
