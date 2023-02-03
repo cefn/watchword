@@ -1,4 +1,4 @@
-import { prompt, PageSequence } from "@watchword/ui-fiction";
+import { prompt, PageSequence } from "@watchword/fiction-grammar";
 
 export function* createPageSequence(): PageSequence {
   yield (

@@ -5,11 +5,11 @@ import { Button } from "react-daisyui";
 export function Prompt<Choice extends string>(props: {
   passage: JSX.Element;
   choices: {
-    [k in Choice]: JSX.Element;
+    [k in Choice]?: JSX.Element;
   };
-  nextChoice: (choice: Choice) => void;
+  handleChoice: (choice: Choice) => void;
 }) {
-  const { passage, choices, nextChoice } = props;
+  const { passage, choices, handleChoice } = props;
 
   const controls = (
     <div className="flex flex-col">
@@ -19,7 +19,7 @@ export function Prompt<Choice extends string>(props: {
           <Button
             color="primary"
             className="w-fit m-1"
-            onClick={() => nextChoice(choiceId)}
+            onClick={() => handleChoice(choiceId)}
           >
             {choicePassage}
           </Button>

@@ -14,7 +14,7 @@ Watchword prototypes two innovations to prove the approach...
 
 - An example grammar and ui for authoring choice-based stories
 
-  - generates a declarative grammar in turn decorated to generate component factories
+  - generates payloads which are mapped to component factories
   - `tell` passages offer no branches. They map to a simple 'Next' control
   - `prompt` passages offer alternate branches. They map to Choice-based controls
 

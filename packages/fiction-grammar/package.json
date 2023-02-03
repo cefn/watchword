@@ -1,5 +1,5 @@
 {
-  "name": "@watchword/core",
+  "name": "@watchword/fiction-grammar",
   "version": "0.1.0",
   "description": "Interactive fiction through JSX Generators",
   "main": "src/index.ts",
@@ -9,8 +9,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cefn Hoile",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/react-dom": "^18.0.10"
-  }
+  "license": "MIT"
 }

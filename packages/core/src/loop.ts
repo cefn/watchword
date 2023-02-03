@@ -1,4 +1,4 @@
-import { ElementFactory, ElementSequence, EventHandler } from "./types";
+import { ElementFactory, ElementSequence, Handler } from "./types";
 
 /** Core logic for ticking through an interactive sequence of content, such as
  * a Choose Your Own adventure story.
@@ -13,7 +13,7 @@ import { ElementFactory, ElementSequence, EventHandler } from "./types";
  * each new JSX element which should be rendered, with executeSequenceLoop
  * returning when the sequence ends. */
 export async function executeUiLoop<Event = unknown>(
-  sequence: ElementSequence<Event>,
+  sequence: ElementSequence,
   setElement: (element: JSX.Element) => void
 ): Promise<void> {
   const END = {};
@@ -42,9 +42,9 @@ export async function executeUiLoop<Event = unknown>(
  * lastEvent is `undefined` for first step in sequence
  */
 export function composeNextUi<Event = unknown>(
-  sequence: ElementSequence<Event>,
+  sequence: ElementSequence,
   lastEvent: Event | undefined,
-  eventHandler: EventHandler<Event>
+  eventHandler: Handler<Event>
 ) {
   const { done, value } =
     lastEvent === undefined ? sequence.next() : sequence.next(lastEvent);
@@ -59,7 +59,7 @@ export function composeNextUi<Event = unknown>(
 /** PageSequence yielded a factory for a event-handling paging element. */
 function composeEventedUi<Event>(
   elementFactory: ElementFactory<Event>,
-  eventHandler: EventHandler<Event>
+  eventHandler: Handler<Event>
 ) {
   return { paging: elementFactory(eventHandler) };
 }
