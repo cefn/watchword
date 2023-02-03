@@ -9,14 +9,14 @@ import {
 /** Locations in the story. */
 type RoomId = "outside" | "lobby" | "cloakroom" | "bar";
 
-/** Player state consumed and manipulated within each room */
+/** A Room yields tell and prompt pages, returning a destination RoomId (or END)*/
+type Room = (state: WorldState) => PageSequence<RoomId | typeof END>;
+
+/** Player state consumed and manipulated within the rooms */
 interface WorldState extends RoomWorldState<RoomId> {
   turnsInBar: number;
   hasCloak: boolean;
 }
-
-/** Function for generator yielding tell and prompt pages, returning a destination RoomId (or END)*/
-type Room = (state: WorldState) => PageSequence<RoomId | typeof END>;
 
 export const outside: Room = function* (state) {
   yield (
