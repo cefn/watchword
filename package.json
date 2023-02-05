@@ -22,7 +22,7 @@
   "scripts": {
     "dev:app": "cd apps/book && npm run dev",
     "build": "run-s build:packages build:apps",
-    "build:packages": "find packages -mindepth 1 -maxdepth 1 | xargs -n1 -I {} sh -c \"cd {} && pwd && npm run build\"",
-    "build:apps": "find apps -mindepth 1 -maxdepth 1 | xargs -n1 -I {} sh -c \"cd {} && pwd && npm run build\""
+    "build:packages": "find packages -mindepth 1 -maxdepth 1 | xargs -I {} sh -c \"cd {} && pwd && npm run build\"",
+    "build:apps": "find apps -mindepth 1 -maxdepth 1 | xargs -I {} sh -c \"cd {} && pwd && npm run build\""
   }
 }

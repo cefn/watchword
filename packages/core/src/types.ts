@@ -6,6 +6,7 @@ export type ElementFactory<Event> = (handler: Handler<Event>) => JSX.Element;
 /** A sequence of component factories (with an event handler param)
  * with next() accepting the event eventually passed to the handler
  */
+// TODO CH nexted value should be generic (defaulting to any?) ?
 export type ElementSequence = Generator<ElementFactory<any>, JSX.Element, any>;
 
 export type InferEntry<Lookup> = keyof Lookup extends keyof Lookup
