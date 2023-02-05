@@ -5,14 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "run-s build:ts build:vite",
+    "build:ts": "tsc",
+    "build:vite": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@watchword/core": "^0.1.0",
     "@watchword/core-react": "^0.1.0",
-    "@watchword/fiction-ui-react": "^0.1.0",
     "@watchword/fiction-grammar": "^0.1.0",
+    "@watchword/fiction-ui-react": "^0.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

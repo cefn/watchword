@@ -1,13 +1,12 @@
 import { toElementSequence } from "@watchword/fiction-grammar";
 import { pageElementDefs } from "@watchword/fiction-ui-react";
+import { ElementSequenceView } from "@watchword/core-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import { createPageSequence } from "./stories/fiction/goodbye-world";
-import { StyledSequenceView } from "./StyledSequenceView";
 
 import { createPageSequence } from "./stories/fiction/cloak-of-darkness";
 
-// import { story } from "./stories/raw/hello-world";
+import "@watchword/fiction-ui-react/css";
 
 export const story = () => {
   const pageSequence = createPageSequence();
@@ -23,6 +22,6 @@ if (rootElement === null) {
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <StyledSequenceView story={story} />
+    <ElementSequenceView story={story} />
   </React.StrictMode>
 );

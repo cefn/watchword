@@ -10,7 +10,6 @@ export function* createPageSequence(): PageSequence {
   if (result === "4") {
     yield <>Hurrah! You chose {result}</>;
     yield <>You were very lucky this time</>;
-    yield <>Lucky, lucky, lucky</>;
   } else {
     yield <>You chose {result} - sorry you missed out</>;
   }

@@ -1,3 +1,10 @@
+# CH vscode config
+.vscode
+
+# CH temporarily ignore old files
+apps/interview/src/old
+apps/interview/src/old2
+
 # Logs
 logs
 *.log
