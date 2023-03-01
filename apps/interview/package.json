@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lauf/store": "^2.0.0-alpha.0",
+    "@lauf/store-edit": "^2.0.0-alpha.0",
     "@watchword/core": "^0.1.0",
     "@watchword/core-react": "^0.1.0",
-    "@watchword/fiction-ui-react": "^0.1.0",
     "@watchword/fiction-grammar": "^0.1.0",
+    "@watchword/fiction-ui-react": "^0.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
