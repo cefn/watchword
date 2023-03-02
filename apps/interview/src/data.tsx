@@ -1,6 +1,7 @@
-import { Tale } from "./types";
-import { branch, skipBeat, taleVisited } from "./actions";
-import { tale, arc } from "./tale";
+import { Role, Beat, Tale, Content, ContentTuple } from "./types";
+import { branch, taleVisited } from "./actions";
+import { tale, arc, serveContent } from "./tale";
+import { NoInfer } from "@watchword/core";
 
 export const ROLES = [
   "principal",
@@ -28,12 +29,30 @@ export const ROLES = [
   "sportsman",
 ] as const satisfies ReadonlyArray<string>;
 
-const illuminationsIntro = arc(
-  ["artist", "maker"] as const,
-  skipBeat(taleVisited, function* (store) {
-    yield <></>;
-  })
+function introBeat<Evidenced extends Role>(
+  ...contents: ContentTuple<Evidenced>
+): Beat<Evidenced> {
+  return function* (store) {
+    if (!taleVisited(store)) {
+      yield* serveContent(store, ...contents);
+    }
+  };
+}
+
+const illuminationsIntro: Beat<any> = introBeat(
+  arc(
+    ["artist", "maker", "inventor"],
+    <>
+      When I was running my own small business in the digital arts sector, I had
+      the chance to conceive and deliver my own solo and community-arts
+      projects. A good example is the Morecambe Mini Illuminations. For that
+      project I designed a new style of artwork that could be attempted by young
+      families, and ran a series of funded workshops to build these
+      Illuminations every winter season for three years before COVID.
+    </>
+  )
 );
+
 export const TALES = {
   illuminations: tale(
     [
@@ -48,7 +67,8 @@ export const TALES = {
     branch({
       "Tell me about a project that you have led successfully.": arc(
         ["leader"] as const,
-        function* (store) {}
+        illuminationsIntro,
+        <></>
       ),
     })
   ),

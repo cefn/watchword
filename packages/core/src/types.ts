@@ -9,6 +9,9 @@ export type ElementFactory<Event> = (handler: Handler<Event>) => JSX.Element;
 // TODO CH nexted value should be generic (defaulting to any?) ?
 export type ElementSequence = Generator<ElementFactory<any>, JSX.Element, any>;
 
+// demotes a Generic binding site as a candidate for inference
+export type NoInfer<T> = [T][T extends any ? 0 : never];
+
 export type InferEntry<Lookup> = keyof Lookup extends keyof Lookup
   ? [keyof Lookup, Lookup[keyof Lookup]]
   : never;

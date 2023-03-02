@@ -11,6 +11,7 @@ export interface PromptAction<Choice extends string> {
   };
 }
 
+// TODO CH consider a default Ending type of void?
 export type PageSequence<Ending = JSX.Element> = Generator<
   TellAction | PromptAction<any> | JSX.Element, // raw static JSX - syntactic sugar for embedding in a tell
   Ending,

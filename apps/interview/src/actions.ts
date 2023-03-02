@@ -1,7 +1,15 @@
-import { NoInfer } from "@watchword/core";
-import { Role, Arc, TaleStore, Beat, TaleState, Predicate } from "./types";
+import {
+  Role,
+  Arc,
+  TaleStore,
+  Beat,
+  TaleState,
+  Predicate,
+  ContentTuple,
+} from "./types";
 import { Store } from "@lauf/store";
 import { edit } from "@lauf/store-edit";
+import { serveContent } from "./tale";
 
 export function branch<Evidenced extends Role, Question extends string>(
   branches: Record<Question, Arc<Evidenced>>
@@ -9,31 +17,25 @@ export function branch<Evidenced extends Role, Question extends string>(
   return function* (store: TaleStore<Evidenced>) {};
 }
 
-export const taleVisited: Predicate<any> = (store) => store.read().invoked > 1;
+export const taleVisited: Predicate = (store) => store.read().invoked > 1;
 
-export function skipBeat<Evidenced extends Role>(
-  skip: Predicate<Evidenced>,
-  beat: Beat<Evidenced>
+export function introBeat<Evidenced extends Role>(
+  ...contents: ContentTuple<Evidenced>
 ): Beat<Evidenced> {
   return function* (store) {
-    if (skip(store)) {
-      return;
+    if (!taleVisited(store)) {
+      yield* serveContent(store, ...contents);
     }
-    yield* beat(store);
   };
 }
 
-export function introBeat<Evidenced extends Role>(beat: Beat<Evidenced>) {
-  return skipBeat<Evidenced>((store) => store.read().invoked > 1, beat);
-}
-
-export function evidence<Evidenced extends Role>(
-  store: Store<TaleState<Evidenced>>,
-  ...roles: [NoInfer<Evidenced>, ...NoInfer<Evidenced>[]]
+export function evidence<TaleRole extends Role, Evidenced extends TaleRole>(
+  store: Store<TaleState<TaleRole>>,
+  ...roles: [Evidenced, ...Evidenced[]]
 ) {
   edit(store, (untypedDraft) => {
     // remove after fixing https://github.com/cefn/lauf/issues/214
-    const draft = untypedDraft as TaleState<Evidenced>;
+    const draft = untypedDraft as TaleState<TaleRole>;
     for (const role of roles) {
       draft.rolesVisited[role] = true;
     }

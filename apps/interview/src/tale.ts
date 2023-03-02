@@ -1,6 +1,6 @@
 import { edit } from "@lauf/store-edit";
 import { mapFrom, NoInfer } from "@watchword/core";
-import { Role, Tale, Arc, TaleState, TaleStore, Beat } from "./types";
+import { Role, Tale, Arc, TaleState, TaleStore, Beat, Content } from "./types";
 import { evidence } from "./actions";
 
 /** Creates an Arc - an annotated Generator which evidences a list of roles to
@@ -8,15 +8,13 @@ import { evidence } from "./actions";
  * blocked - should be driven by context
  * */
 export function arc<Evidenced extends Role>(
-  roles: readonly [NoInfer<Evidenced>, ...NoInfer<Evidenced>[]],
-  ...beats: Beat<NoInfer<Evidenced>>[]
+  roles: readonly [Evidenced, ...Evidenced[]],
+  ...contents: [Content<Evidenced>, ...Content<Evidenced>[]]
 ): Arc<Evidenced> {
   return Object.assign(
     function* (store: TaleStore<Evidenced>) {
       // visit the beats
-      for (const beat of beats) {
-        yield* beat(store);
-      }
+      yield* serveContent(store, ...contents);
       // evidence the roles
       for (const role of roles) {
         evidence(store, ...roles);
@@ -32,13 +30,11 @@ export function arc<Evidenced extends Role>(
  * */
 export function tale<Evidenced extends Role>(
   roles: readonly [Evidenced, ...Evidenced[]],
-  ...beats: Beat<NoInfer<Evidenced>>[] // NoInfer - should drive children not the reverse
+  ...contents: [Content<NoInfer<Evidenced>>, ...Content<NoInfer<Evidenced>>[]]
 ): Tale<Evidenced> {
   const rootTaleFn = function* (store: TaleStore<Evidenced>) {
     enterTale(store);
-    for (const beat of beats) {
-      yield* beat(store);
-    }
+    yield* serveContent(store, ...contents);
     leaveTale(store);
   };
   const state: TaleState<Evidenced> = {
@@ -47,6 +43,19 @@ export function tale<Evidenced extends Role>(
     rolesVisited: mapFrom(roles, () => false),
   };
   return Object.assign(rootTaleFn, { roles, state });
+}
+
+export function* serveContent<Evidenced extends Role>(
+  store: TaleStore<Evidenced>,
+  ...contents: Content<Evidenced>[]
+) {
+  for (const content of contents) {
+    if (typeof content === "function") {
+      yield* content(store); // a generator
+    } else {
+      yield content; // raw JSX
+    }
+  }
 }
 
 function enterTale(store: TaleStore<any>) {
