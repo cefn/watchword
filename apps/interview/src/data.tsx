@@ -1,7 +1,6 @@
-import { Role, Beat, Tale, Content, ContentTuple } from "./types";
-import { branch, taleVisited } from "./actions";
-import { tale, arc, serveContent } from "./tale";
-import { NoInfer } from "@watchword/core";
+import { Role, Beat, Tale } from "./types";
+import { branch, introBeat } from "./actions";
+import { tale, arc } from "./tale";
 
 export const ROLES = [
   "principal",
@@ -28,16 +27,6 @@ export const ROLES = [
   "linguist",
   "sportsman",
 ] as const satisfies ReadonlyArray<string>;
-
-function introBeat<Evidenced extends Role>(
-  ...contents: ContentTuple<Evidenced>
-): Beat<Evidenced> {
-  return function* (store) {
-    if (!taleVisited(store)) {
-      yield* serveContent(store, ...contents);
-    }
-  };
-}
 
 const illuminationsIntro: Beat<any> = introBeat(
   arc(
@@ -68,8 +57,27 @@ export const TALES = {
       "Tell me about a project that you have led successfully.": arc(
         ["leader"] as const,
         illuminationsIntro,
-        <></>
+        <>Describe how the Mini Illuminations involved leadership.</>
       ),
+      "You style yourself as an inventor. What have you invented?": arc(
+        ["inventor"] as const,
+        illuminationsIntro,
+        <>Describe how the Mini Illuminations involved inventing a new device</>
+      ),
+      "What do you like to do outside work?": arc(
+        ["artist", "maker"],
+        illuminationsIntro,
+        <>
+          Describe how Mini Illuminations is based on hobbies of doing art and
+          making electronics
+        </>
+      ),
+      "Your CV emphasises full-stack development in Typescript. Do you know any other languages?":
+        arc(
+          ["python_coder"],
+          illuminationsIntro,
+          <>Describe use of python in Mini Illuminations</>
+        ),
     })
   ),
 } satisfies Record<string, Tale<any>>;
