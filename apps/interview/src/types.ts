@@ -3,10 +3,13 @@ import { MemberOf, NoInfer } from "@watchword/core";
 import { PageSequence } from "@watchword/fiction-grammar";
 import { ROLES, TALES } from "./data";
 
-/** Role is derived from constant data */
-export type Role = (typeof ROLES)[number];
 /** TaleId is derived from constant data */
 export type TaleId = keyof typeof TALES;
+
+/** Role is derived from constant data */
+export type Role = (typeof ROLES)[number];
+
+export type RoleTuple<Evidenced> = readonly [Evidenced, ...Evidenced[]];
 
 /** Derive types by TaleId */
 export type TaleById<Id extends TaleId> = (typeof TALES)[Id];
@@ -37,8 +40,8 @@ export type Content<Evidenced extends Role> = Beat<Evidenced> | JSX.Element;
 
 /** Utility type to define a non-inferential, non-empty Content tuple */
 export type ContentTuple<Evidenced extends Role> = [
-  Content<NoInfer<Evidenced>>,
-  ...Content<NoInfer<Evidenced>>[]
+  Content<Evidenced>,
+  ...Content<Evidenced>[]
 ];
 
 /** Used to track the runtime progress of a Tale. */

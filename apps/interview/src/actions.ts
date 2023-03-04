@@ -10,9 +10,10 @@ import {
 import { Store } from "@lauf/store";
 import { edit } from "@lauf/store-edit";
 import { serveContent } from "./tale";
+import { NoInfer } from "@watchword/core";
 
 export function branch<Evidenced extends Role, Question extends string>(
-  branches: Record<Question, Arc<Evidenced>>
+  branches: Record<Question, Arc<NoInfer<Evidenced>>>
 ): Beat<Evidenced> {
   return function* (store: TaleStore<Evidenced>) {};
 }
