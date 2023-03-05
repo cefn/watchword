@@ -1,6 +1,14 @@
-import { Beat, Role, Tale } from "./types";
-import { branch, introBeat } from "./actions";
-import { tale, arc } from "./tale";
+import { tag, taleVisited } from "./actions";
+import { arc, tale } from "./tale";
+import {
+  Arc,
+  Beat,
+  ContentTuple,
+  Role,
+  RoleTuple,
+  Tale,
+  TaleStore,
+} from "./types";
 
 export const ROLES = [
   "principal",
@@ -28,131 +36,55 @@ export const ROLES = [
   "sportsman",
 ] as const satisfies ReadonlyArray<string>;
 
-const illuminationsIntro: Beat<any> = introBeat(
-  arc(
-    ["coder", "teacher"] as const,
-    <>
-      Running my small business in the digital arts sector, I conceived and
-      delivered my own solo and community-arts projects. A good example is the
-      Morecambe Mini Illuminations. For that project I designed a new style of
-      programmable artwork that could be attempted by families, and ran a series
-      of funded workshops to build these Illuminations every winter season for
-      three years before COVID.
-    </>
-  )
-);
+export function introArc<Tagged extends Role>(
+  roles: RoleTuple<Tagged>,
+  ...contents: ContentTuple<Tagged>
+): Arc<Tagged> {
+  const beat: Beat<Tagged> = function* (store) {
+    // create arc, yield to it, if first visit
+    if (taleVisited(store)) {
+      // rely on arc beat logic to notify roles
+      const arcBeat = arc(roles, ...contents);
+      yield* arcBeat(store);
+    }
+  };
+  return Object.assign({
+    beat,
+    roles,
+  });
+}
+
+// const illuminationsIntro = introArc(["coder", "teacher"] as const, <></>);
+
+const illuminationsBranches = arc(["artist"] as const, function* (store) {
+  tag(store, "artist");
+});
+
+const beat = function* <Stored extends Role>(store: TaleStore<Stored>) {
+  tag(store, "cicd");
+};
 
 const illuminations = tale(
   [
     "coder",
-    "teacher",
-    "artist",
-    "maker",
-    "inventor",
-    "leader",
-    "python_coder",
+    // "teacher",
+    // "artist",
+    // "maker",
+    // "inventor",
+    // "leader",
+    // "python_coder",
   ] as const,
-  branch({
-    "Tell me about a project that you have led successfully.": arc(
-      ["leader"] as const,
-      illuminationsIntro,
-      <>Describe how the Mini Illuminations involved leadership.</>
-    ),
-    "You style yourself as an inventor. What have you invented?": arc(
-      ["inventor"] as const,
-      illuminationsIntro,
-      <>Describe how the Mini Illuminations involved inventing a new device</>
-    ),
-    "What do you like to do outside work?": arc(
-      ["maker"],
-      illuminationsIntro,
-      <>
-        Describe how Mini Illuminations is based on hobbies of doing art and
-        making electronics
-      </>
-    ),
-  })
+  // arc(["agile_user"], function* () {}),
+  // illuminationsIntro,
+  illuminationsBranches
 );
 
-const btIntro: Beat<any> = introBeat(arc([""] as const, <></>));
-const bt = tale(
-  ["analyst", "coder", "java_coder", "inventor", "strategist", "writer"],
-  branch({})
-);
-
-const bbcIntro: Beat<any> = arc(["team_player", "typescript_coder"], <></>);
-
-const bbc = tale(
-  [
-    "analyst",
-    "agile_user",
-    "github_user",
-    "cicd",
-    "java_coder",
-    "python_coder",
-    "strategist",
-    "team_player",
-    "tester",
-    "typescript_coder",
-  ] as const,
-  branch({
-    "Your CV emphasises full-stack development in Typescript. Do you know any other languages?":
-      arc(
-        ["python_coder", "java_coder"],
-        bbcIntro,
-        <>Describe use of python and java at BBC</>
-      ),
-    "Have you worked in an Agile Team? Did you use Scrum or Kanban?": arc(
-      ["agile_user"],
-      bbcIntro,
-      <></>
-    ),
-    "What do you consider good practice in Automated Testing?": arc(
-      ["tester", "cicd"],
-      bbcIntro,
-      <></>
-    ),
-  })
-);
-
-const snykIntro: Beat<any> = arc([""], <></>);
-
-const snyk = tale(
-  [
-    "coder",
-    "typescript_coder",
-    "agile_user",
-    "github_user",
-    "principal",
-    "cicd",
-    "sidekick",
-    "tester",
-  ],
-  branch({
-    "How do you approach disciplining a product backlog?": arc(
-      ["agile_user"],
-      <></>
-    ),
-  })
-);
-
-const parkrunIntro: Beat<any> = introBeat(arc([] as const, <></>));
-const parkrun = tale([], branch({}));
-
-const paraglidingIntro: Beat<any> = introBeat(arc([] as const, <></>));
-const paragliding = tale([], branch({}));
-
-export const TALES = {
+const TALES = {
   illuminations,
-  bbc,
-  bt,
-  snyk,
-  paragliding,
-  parkrun,
-  lauf,
-  shrimpingit,
-  make_adafruit_vgkits,
-  nottingham_philosophy,
-  lancaster_design,
-  sussex_ai,
-} satisfies Record<string, Tale<any>>;
+} as const;
+
+type ValidTale<T extends Tale<any, any>> = T extends Tale<infer R, infer Tagged>
+  ? R extends Tagged
+    ? true
+    : false
+  : false;

@@ -1,69 +1,54 @@
+/** Types in this API are often in pairs like...
+ * `R extends Role, Tagged extends R`
+ * These represent the Roles declared by the Tale
+ * vs. the Roles declared as tagged with Content.
+ * This means that the tag() function can be more
+ * narrowly typed for just specific items declared.
+ * It may be possible to check that all declared
+ * roles are tagged in a Tale by inference at compile time.
+ */
 import { Store } from "@lauf/store";
-import { MemberOf, NoInfer } from "@watchword/core";
 import { PageSequence } from "@watchword/fiction-grammar";
-import { ROLES, TALES } from "./data";
-
-/** TaleId is derived from constant data */
-export type TaleId = keyof typeof TALES;
+import { ROLES } from "./data";
 
 /** Role is derived from constant data */
 export type Role = (typeof ROLES)[number];
 
-export type RoleTuple<Evidenced> = readonly [Evidenced, ...Evidenced[]];
+export type RoleTuple<R extends Role> = readonly [R, ...R[]];
 
-/** Derive types by TaleId */
-export type TaleById<Id extends TaleId> = (typeof TALES)[Id];
-export type TaleRoleById<Id extends TaleId> = MemberOf<TaleById<Id>["roles"]>;
-
-/** A story 'beat' is the smallest structural element of interactivity.
- * Beat is a generator function interface with no other properties.
- * It's invoked passing the store of its parent Tale with an implied
- * set of Evidenced roles. */
-export type Beat<Evidenced extends Role> = (
-  store: TaleStore<Evidenced>
-) => PageSequence<void>;
-
-/** An Arc is a Beat with a property containing the roles that it evidences. */
-export interface Arc<Evidenced extends Role> extends Beat<Evidenced> {
-  roles: readonly [Evidenced, ...Evidenced[]];
-}
-
-/** A Tale is an Arc with properties for both roles and runtime state.
- * top-level properties of TALES are expected to be of type Tale. */
-export interface Tale<Evidenced extends Role> extends Arc<Evidenced> {
-  state: TaleState<Evidenced>;
-}
-
-/** Utility type to support rich or terse content.
- * Either through a generator of JSX.Elements or just a raw JSX.Element */
-export type Content<Evidenced extends Role> = Beat<Evidenced> | JSX.Element;
-
-/** Utility type to define a non-inferential, non-empty Content tuple */
-export type ContentTuple<Evidenced extends Role> = [
-  Content<Evidenced>,
-  ...Content<Evidenced>[]
-];
-
-/** Used to track the runtime progress of a Tale. */
-export interface TaleState<Evidenced extends Role> {
+export interface TaleState<Stored extends Role> {
   invoked: number;
   active: boolean;
-  rolesVisited: Record<Evidenced, boolean>;
+  rolesVisited: Record<Stored, boolean>;
 }
-
-/** Combines the runtime progress of all Tales, by TaleId */
-export type InterviewState = {
-  [Id in TaleId]: TaleState<TaleRoleById<Id>>;
-};
 
 /** A watchable TaleState (a partition of the Interview store with state for
  * just one Tale)*/
-export type TaleStore<Evidenced extends Role> = Store<TaleState<Evidenced>>;
+export type TaleStore<Stored extends Role> = Store<TaleState<Stored>>;
 
-/** A watchable state combining all the TaleStates from TALES in a single store. */
-export type InterviewStore = Store<InterviewState>;
+export type Beat<Tagged extends Role> = <Stored extends Role>(
+  store: TaleStore<Tagged | Stored>
+) => PageSequence<void>;
 
-/** Utility type for filters that consume some store. */
-export type Predicate = <Evidenced extends Role>(
-  store: TaleStore<Evidenced>
+export type Arc<Tagged extends Role> = Beat<Tagged> & {
+  roles: RoleTuple<Tagged>;
+};
+
+export type Tale<Stored extends Role, Tagged extends Stored> = Beat<Tagged> & {
+  roles: RoleTuple<Stored>;
+  state: TaleState<Stored>;
+};
+
+/** Utility type to support rich or terse content.
+ * Either through a generator of JSX.Elements or just a raw JSX.Element */
+export type Content<Tagged extends Role> = Beat<Tagged> | JSX.Element;
+
+/** Utility type to define a non-inferential, non-empty Content tuple */
+export type ContentTuple<Tagged extends Role> = [
+  Content<Tagged>,
+  ...Content<Tagged>[]
+];
+
+export type Predicate = <Stored extends Role>(
+  store: TaleStore<Stored>
 ) => boolean;
