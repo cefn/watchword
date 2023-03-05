@@ -1,6 +1,5 @@
-import { branch, introArc } from "./actions";
+import { branch, introArc, isTagged } from "./actions";
 import { arc, tale } from "./tale";
-import { Role, Tale, TaleStore } from "./types";
 
 export const ROLES = [
   "principal",
@@ -28,6 +27,7 @@ export const ROLES = [
   "sportsman",
 ] as const satisfies ReadonlyArray<string>;
 
+/** Define an introductory page which is only visited the first time, and evidences two roles. */
 const illuminationsIntro = introArc(
   ["coder", "teacher"] as const,
   <>
@@ -40,10 +40,9 @@ const illuminationsIntro = introArc(
   </>
 );
 
-function isTagged<R extends Role>(store: TaleStore<R>, role: R) {
-  return store.read().rolesTagged[role];
-}
-
+/** Create the illuminations tale, which has the intro embedded in it, as well as
+ * branching logic and content guards based on what the user has already seen.
+ */
 const illuminations = tale(
   [
     "coder",
