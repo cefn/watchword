@@ -12,6 +12,11 @@ export type ElementSequence = Generator<ElementFactory<any>, JSX.Element, any>;
 // demotes a Generic binding site as a candidate for inference
 export type NoInfer<T> = [T][T extends any ? 0 : never];
 
+/** Workaround to encourage editor to show expanded type.
+ * from https://stackoverflow.com/questions/57683303/how-can-i-see-the-full-expanded-contract-of-a-typescript-type/57683652#57683652
+ */
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+
 export type InferEntry<Lookup> = keyof Lookup extends keyof Lookup
   ? [keyof Lookup, Lookup[keyof Lookup]]
   : never;
