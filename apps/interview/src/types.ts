@@ -26,7 +26,7 @@ export interface TaleState<Stored extends Role> {
  * just one Tale)*/
 export type TaleStore<Stored extends Role> = Store<TaleState<Stored>>;
 
-export type Beat<Tagged extends Role> = <Stored extends Role>(
+export type Beat<out Tagged extends Role> = <Stored extends Role>(
   store: TaleStore<Tagged | Stored>
 ) => PageSequence<void>;
 
