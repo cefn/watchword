@@ -19,7 +19,7 @@ export type RoleTuple<R extends Role> = readonly [R, ...R[]];
 export interface TaleState<Stored extends Role> {
   invoked: number;
   active: boolean;
-  rolesVisited: Record<Stored, boolean>;
+  rolesTagged: Record<Stored, boolean>;
 }
 
 /** A watchable TaleState (a partition of the Interview store with state for

@@ -30,7 +30,7 @@ export function tale<Stored extends Role, Tagged extends Stored>(
   const state: TaleState<Stored> = {
     active: false,
     invoked: 0,
-    rolesVisited: mapFrom(roles, () => false),
+    rolesTagged: mapFrom(roles, () => false),
   };
   return Object.assign(beat, { roles, state });
 }
