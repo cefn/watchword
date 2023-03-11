@@ -26,14 +26,17 @@ export interface TaleState<Stored extends Role> {
  * just one Tale)*/
 export type TaleStore<Stored extends Role> = Store<TaleState<Stored>>;
 
+/** A story unit (scriptwriters use this term) */
 export type Beat<out Tagged extends Role> = <Stored extends Role>(
   store: TaleStore<Tagged | Stored>
 ) => PageSequence<void>;
 
+/** A story unit with associated roles. */
 export type Arc<Tagged extends Role> = Beat<Tagged> & {
   roles: RoleTuple<Tagged>;
 };
 
+/** A story unit with roles and a record of its execution. */
 export type Tale<Stored extends Role, Tagged extends Stored> = Beat<Tagged> & {
   roles: RoleTuple<Stored>;
   state: TaleState<Stored>;
