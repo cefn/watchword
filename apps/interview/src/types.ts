@@ -8,9 +8,9 @@
  * roles are tagged in a Tale by inference at compile time
  * (see the debugging types in inferCoverage).
  */
-import { Store } from "@lauf/store";
-import { PageSequence } from "@watchword/fiction-grammar";
-import { ROLES, INTERVIEW } from "./data";
+import type { Store } from "@lauf/store";
+import type { PageSequence } from "@watchword/fiction-grammar";
+import type { ROLES } from "./data";
 
 /** Role is derived from constant data */
 export type Role = (typeof ROLES)[number];

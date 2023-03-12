@@ -12,10 +12,10 @@ import {
   MemberOf,
   InferEntry,
 } from "@watchword/core";
-import { PageSequence } from "@watchword/fiction-grammar";
+import type { PageSequence } from "@watchword/fiction-grammar";
+import type { Tale } from "./types";
 import { INTERVIEW, ROLES } from "./data";
 import { isArcExhausted } from "./logic";
-import { Tale } from "./types";
 
 type Interview = typeof INTERVIEW;
 type TaleId = keyof Interview;
@@ -131,21 +131,22 @@ export function* createInterviewPageSequence(): PageSequence<JSX.Element> {
 
     // eliminate exhausted tales
     const liveEntries = taleEntries.filter(([_, tale]) => {
-      return isArcExhausted(tale.state, tale);
+      return !isArcExhausted(tale.state, tale);
     });
 
     // check if tales remain
-    if (liveEntries.length > 0) {
-      // sort by tail priority
-      liveEntries.sort(comparePriority);
-      // yield from the highest priority tale (passing its store)
-      const [priorityTale] = liveEntries;
-      const [taleId, tale] = priorityTale;
-      const taleStore = getTaleStore(taleId);
-      console.log("Yielding from tale");
-      throw new Error();
-      yield* tale(taleStore);
+    if (liveEntries.length === 0) {
+      break;
     }
+
+    // sort by tail priority
+    liveEntries.sort(comparePriority);
+    // yield from the highest priority tale (passing its store)
+    const [priorityTale] = liveEntries;
+    const [taleId, tale] = priorityTale;
+    const taleStore = getTaleStore(taleId);
+    console.log("Yielding from tale");
+    yield* tale(taleStore);
   }
   return <>Congratulations, you have reached the end of the interview.</>;
 }

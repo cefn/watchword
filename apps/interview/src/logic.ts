@@ -1,12 +1,10 @@
-import { Store } from "@lauf/store";
+import type { Store } from "@lauf/store";
 import { edit } from "@lauf/store-edit";
-import { NoInfer } from "@watchword/core";
-import {
+import type {
   Arc,
   Predicate,
   Role,
   RoleTuple,
-  Tale,
   TaleState,
   TaleStore,
 } from "./types";

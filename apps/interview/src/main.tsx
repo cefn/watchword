@@ -1,3 +1,7 @@
+// Adds support for Sets and Maps to our Immutable helper library
+import { enableMapSet } from "immer";
+enableMapSet();
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ElementSequenceView } from "@watchword/core-react";
@@ -19,6 +23,7 @@ export const story = () => {
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
+    <p>Hi</p>
     <ElementSequenceView story={story} />
   </React.StrictMode>
 );

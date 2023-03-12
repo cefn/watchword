@@ -2,7 +2,7 @@ import { edit } from "@lauf/store-edit";
 import { safeEntries } from "@watchword/core";
 import { PageSequence, prompt } from "@watchword/fiction-grammar";
 import { flagSymbols, isArcExhausted, tagRoles } from "./logic";
-import {
+import type {
   Arc,
   Beat,
   ContentTuple,
@@ -81,7 +81,8 @@ export function lazyArc<Tagged extends Role>(
 
   // lazy beat runs only if flag not yet set
   const lazyBeat: Beat<Tagged> = function* (store) {
-    if (!store.read().flagged.has(flag)) {
+    const state = store.read();
+    if (!state.flagged.has(flag)) {
       yield* flaggedBeat(store);
     }
   };
@@ -100,7 +101,7 @@ export function branch<Tagged extends Role, Question extends string>(
   return function* (store) {
     const branchEntries = safeEntries(branches);
     const liveEntries = branchEntries.filter(
-      ([_, arc]) => !isArcExhausted(store, arc)
+      ([_, arc]) => !isArcExhausted(store.read(), arc)
     );
     if (liveEntries.length > 0) {
       const choices = Object.fromEntries(

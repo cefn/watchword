@@ -1,5 +1,5 @@
 import type { Tale } from "./types";
-import { INTERVIEW } from "./data";
+import type { INTERVIEW } from "./data";
 
 export type InferUntagged<T extends Tale<any, any>> = T extends Tale<
   infer Stored,
