@@ -1,5 +1,5 @@
 import type { Tale } from "./types";
-import { TALES } from "./data";
+import { INTERVIEW } from "./data";
 
 export type InferUntagged<T extends Tale<any, any>> = T extends Tale<
   infer Stored,
@@ -9,11 +9,13 @@ export type InferUntagged<T extends Tale<any, any>> = T extends Tale<
   : never;
 
 export type MissingTags = {
-  [K in keyof typeof TALES]: InferUntagged<(typeof TALES)[K]>;
+  [K in keyof typeof INTERVIEW]: InferUntagged<(typeof INTERVIEW)[K]>;
 };
 
 export type Exhaustiveness = {
-  [K in keyof typeof TALES]: InferUntagged<(typeof TALES)[K]> extends never
+  [K in keyof typeof INTERVIEW]: InferUntagged<
+    (typeof INTERVIEW)[K]
+  > extends never
     ? true
     : false;
 };

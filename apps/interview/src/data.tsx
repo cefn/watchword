@@ -1,5 +1,5 @@
-import { branch, introArc } from "./actions";
-import { arc, tale } from "./tale";
+import { branch, lazyArc } from "./beat";
+import { arc, tale } from "./beat";
 
 export const ROLES = [
   "principal",
@@ -27,7 +27,7 @@ export const ROLES = [
   "sportsman",
 ] as const satisfies ReadonlyArray<string>;
 
-const illuminationsIntro = introArc(
+const illuminationsIntro = lazyArc(
   ["artist", "teacher", "coder"] as const,
   <>
     Running my small business in the digital arts sector, I conceived and
@@ -53,25 +53,25 @@ const illuminations = tale(
     "Tell me about a project that you have led successfully.": arc(
       ["leader", "artist", "coder", "teacher"] as const,
       illuminationsIntro,
-      <>Describe how the Mini Illuminations involved leadership</>
+      <>Describes how the Mini Illuminations involved leadership</>
     ),
     "You style yourself as an inventor. What have you invented?": arc(
       ["inventor", "artist", "coder", "teacher"] as const,
       illuminationsIntro,
-      <>Describe how the Mini Illuminations involved inventing a new device</>
+      <>Describes how the Mini Illuminations involved inventing a new device</>
     ),
     "What do you like to do outside work?": arc(
       ["maker", "artist", "coder", "teacher"],
       illuminationsIntro,
       <>
-        Describe how Mini Illuminations is based on hobbies of doing art and
+        Describes how Mini Illuminations is based on hobbies of doing art and
         making electronics
       </>
     ),
   })
 );
 
-const bbcIntro = introArc(["team_player", "typescript_coder"], <></>);
+const bbcIntro = lazyArc(["team_player", "typescript_coder"], <></>);
 
 const bbc = tale(
   [
@@ -91,22 +91,22 @@ const bbc = tale(
       arc(
         ["python_coder", "java_coder", "team_player", "typescript_coder"],
         bbcIntro,
-        <>Describe use of python and java at BBC</>
+        <>Describes use of python and java at BBC</>
       ),
     "Have you worked in an Agile Team? Did you use Scrum or Kanban?": arc(
       ["agile_user", "team_player", "typescript_coder"],
       bbcIntro,
-      <></>
+      <>Describes experience of Agile ways of working</>
     ),
     "What do you consider good practice in Automated Testing?": arc(
       ["tester", "cicd", "team_player", "typescript_coder"],
       bbcIntro,
-      <></>
+      <>Describes philosophy of testing</>
     ),
   })
 );
 
-export const TALES = {
+export const INTERVIEW = {
   illuminations,
   bbc,
   // bt,

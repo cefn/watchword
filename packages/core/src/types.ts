@@ -17,9 +17,11 @@ export type NoInfer<T> = [T][T extends any ? 0 : never];
  */
 export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 
-export type InferEntry<Lookup> = keyof Lookup extends keyof Lookup
-  ? [keyof Lookup, Lookup[keyof Lookup]]
-  : never;
+export type InferEntry<Lookup> = Expand<
+  {
+    [K in keyof Lookup]: [K, Lookup[K]];
+  }[keyof Lookup]
+>;
 
 export type GYielded<G extends Generator> = G extends Generator<
   infer Yielded,

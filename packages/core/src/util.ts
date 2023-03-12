@@ -35,25 +35,25 @@ export type MemberOf<Array extends readonly unknown[]> = Array[number];
 
 export type ValueOf<T> = T[keyof T];
 
-export function safeEntries<Lookup extends { [k in string]: unknown }>(
-  lookup: Lookup
-) {
+export function safeEntries<Lookup extends object>(lookup: Lookup) {
   return Object.entries(lookup) as InferEntry<Lookup>[];
 }
 
-export function safeKeys<Lookup extends { [k in string]: unknown }>(
-  lookup: Lookup
-) {
+export function safeValues<Lookup extends object>(lookup: Lookup) {
+  return Object.values(lookup) as ValueOf<Lookup>[];
+}
+
+export function safeKeys<Lookup extends object>(lookup: Lookup) {
   return Object.keys(lookup) as (keyof Lookup)[];
 }
 
 export function mapFrom<
-  K extends string,
-  V,
-  Map extends { [k in K]: V } = { [k in K]: V } // allows overriding default mapping
->(keys: readonly K[], mapFn: <Key extends K>(key: Key) => V) {
+  From extends object,
+  To extends { [K in keyof From]: any }
+>(map: From, mapFn: <Key extends keyof From>(key: Key) => To[Key]) {
+  const keys = safeKeys(map);
   return Object.fromEntries(keys.map((key) => [key, mapFn(key)])) as {
-    [k in K]: Map[K];
+    [K in keyof From]: To[K];
   };
 }
 
