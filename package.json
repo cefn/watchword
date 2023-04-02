@@ -10,19 +10,20 @@
     "packages/core-react",
     "packages/fiction-grammar",
     "packages/fiction-ui-react",
-    "apps/book"
+    "apps/book",
+    "apps/interview"
   ],
   "types": "dist/index.d.ts",
   "devDependencies": {
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "tsx": "^3.12.2",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "scripts": {
     "dev:app": "cd apps/book && npm run dev",
     "build": "run-s build:packages build:apps",
-    "build:packages": "find packages -mindepth 1 -maxdepth 1 | xargs -n1 -I {} sh -c \"cd {} && pwd && npm run build\"",
-    "build:apps": "find apps -mindepth 1 -maxdepth 1 | xargs -n1 -I {} sh -c \"cd {} && pwd && npm run build\""
+    "build:packages": "find packages -mindepth 1 -maxdepth 1 | xargs -I {} sh -c \"cd {} && pwd && npm run build\"",
+    "build:apps": "find apps -mindepth 1 -maxdepth 1 | xargs -I {} sh -c \"cd {} && pwd && npm run build\""
   }
 }

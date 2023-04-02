@@ -1,12 +1,12 @@
 import { ElementFactory, ElementSequence, Handler } from "./types";
 
-/** Core logic for ticking through an interactive sequence of content, such as
- * a Choose Your Own adventure story.
+/** Core logic for ticking through an interactive sequence of content, such as a
+ * Choose Your Own adventure story.
  *
  * ElementSequences are Typescript Generators that accept event handlers and
  * yield renderable JSX elements to present to a user. Embedded in each JSX
- * element is some user interaction that will trigger the event handler and
- * causing the next element to be loaded and shown.
+ * element is some user interaction that will trigger the event handler causing
+ * the next element to be loaded and shown.
  *
  * A web application is expected to create a sequence, and call
  * executeSequenceLoop(...) passing a callback. The callback will be notified of

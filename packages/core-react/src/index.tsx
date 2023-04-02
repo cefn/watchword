@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { ElementSequence, executeUiLoop } from "@watchword/core";
 
-export function ElementSequenceView<Event>(props: {
+export interface ElementSequenceViewProps {
   story: () => ElementSequence;
-}) {
+}
+
+export function ElementSequenceView<Event>(props: ElementSequenceViewProps) {
   const { story } = props;
 
   const [element, setElement] = useState<JSX.Element | null>(null);
